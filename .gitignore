@@ -2,3 +2,11 @@ node_modules/
 pages-dist/
 .next/
 *.tsbuildinfo
+
+staging-dist/
+.git.icloud-backup
+.superpowers/
+
+node_modules
+data/demo.sqlite
+docs/domain-review.diff
