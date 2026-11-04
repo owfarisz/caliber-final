@@ -7,6 +7,6 @@ await build({entryPoints:['scripts/pages-entry.tsx'],bundle:true,minify:true,jsx
 await copyFile('public/data/snapshot.json',`${out}/data/snapshot.json`);
 await copyFile('app/icon.svg',`${out}/icon.svg`);
 await writeFile(`${out}/audit-report.html`,(await readFile('public/audit-report.html','utf8')).replace('href="/icon.svg"','href="./icon.svg"'));
-await writeFile(`${out}/index.html`,`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263F77"><title>KAUSYNC — Spare Intelligence</title><link rel="icon" href="${base}/icon.svg"><link rel="stylesheet" href="${base}/assets/app.css"></head><body><div id="root"></div><script type="module" src="${base}/assets/app.js"></script></body></html>`);
+await writeFile(`${out}/index.html`,`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263F77"><title>ROOTSYNC — Spare Intelligence</title><link rel="icon" href="${base}/icon.svg"><link rel="stylesheet" href="${base}/assets/app.css"></head><body><div id="root"></div><script type="module" src="${base}/assets/app.js"></script></body></html>`);
 await writeFile(`${out}/.nojekyll`,'');
 console.log(`GitHub Pages build ready: ${out} (base ${base})`);

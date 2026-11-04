@@ -23,7 +23,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: node --experimental-strip-types --test tests/engine.test.ts
+      - run: node --experimental-strip-types --test tests/*.test.ts
+      - run: npx tsc -p tsconfig.pages.json
       - run: npm run build:pages
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

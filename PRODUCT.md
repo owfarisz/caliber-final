@@ -1,0 +1,2 @@
+# ROOTSYNC / Spare Intelligence
+CALIBER final hackathon MVP for Procurement and Technician. Use the verified ROOTSYNC reference on its rootsync branch. Help a technician test operating schedules and a procurement planner inspect explainable stock policy recommendations grounded in six synthetic ERP datasets. English UI. Audit companion in Indonesian. Do not claim real-time telemetry, validated causal failure prediction, actual delivery performance or realized savings. See TRD.md.

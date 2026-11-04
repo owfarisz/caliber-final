@@ -1,2 +1,6 @@
-# Visual continuity
-Mode: Operate for application; Read for audit report. Preserve KAUSYNC blue rail, pale blue/white surfaces and yellow CTA accents from prior final reviewed screenshot new case 2/prototype/docs/screenshots/redesign/portfolio.png. Palette #263F77, #315A96, #4076B4, #5FB6E6, #8FC5EA, #E0DE50. Ink #19345C, muted #526B86, surface #F8FAFD, line #D7E4EE. Red only for risk; every color has text. Strong typography, compact labeled navigation, generous content canvas, actionable rows and charts. No invented equipment imagery presented as this dataset's actual assets. Reuse Caliber logo and prior images only with representative labels. Avoid decorative dashboard clutter. Accessible focus, responsive stacked layouts and horizontal table scrolling.
+# ROOTSYNC dashboard
+Operate mode. Source of truth: new case 2/prototype, branch rootsync, current light cobalt CSS tokens. Navy #263F77; blue #4076B4; cyan #5FB6E6; yellow #E0DE50; ink #19345C; muted #526B86; surface #F8FAFD; line #D7E4EE.
+
+Requested layout: four key-number cards; upper chart grid with activity trend, stock-policy donut and criticality bars; right-hand automated analysis rail; a representative interactive 3D machine reused from RootSync; comprehensive material table below with search/filter/pagination; selected material planning detail below. Preserve Technician scenario and evidence pages.
+
+Insights are deterministic evidence summaries, not responses from a connected LLM. No invented telemetry. Charts count materials or material-days, never add mixed physical units. Responsive two-column then single-column cards; contained table scrolling; bottom mobile navigation.
