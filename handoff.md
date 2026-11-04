@@ -200,7 +200,7 @@ After push, inspect run status/jobs, verify all dev deep links and main/stagging
 
 ## 13. Delivery status
 
-Implementation and local guided-browser tests complete at handoff creation. Final deployment/run evidence is recorded in `docs/DEV-VERIFICATION.md` at delivery; consult that file and GitHub Actions for current status. Do not treat older docs/PROGRESS.md (staging v2 delivery) as the state of the guided dev revision.
+Implementation, 42 tests, strict TypeScript, build, desktop guided workflow and eight live routes passed. Dev is published at https://owfarisz.github.io/caliber-final/dev/ (application commit 0935a61, Actions run 41812213026). Final deployment/run evidence is recorded in `docs/DEV-VERIFICATION.md` at delivery; consult that file and GitHub Actions for current status. Do not treat older docs/PROGRESS.md (staging v2 delivery) as the state of the guided dev revision.
 
 ### Final review corrections
 

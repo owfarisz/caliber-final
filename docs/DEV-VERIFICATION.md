@@ -13,7 +13,12 @@ Branch: `dev`, based on stagging `21d5ee6`. Main and stagging source branches ar
 ## Publication
 Target: https://owfarisz.github.io/caliber-final/dev/
 Workflow: `.github/workflows/dev.yml` publishes main, stagging and dev in one Pages artifact. The github-pages environment allows all three branches.
-Final Actions result and live route verification will be appended after publication.
+Deployment succeeded: [Actions run 41812213026](https://github.com/owfarisz/caliber-final/actions/runs/41812213026), application commit `0935a615d878e60881e1dc0ed6a6a98421bfe8a5`.
+
+Live desktop verification passed for all eight routes: inventory, inventory/materials, inventory/procurement, inventory/transactions, inventory/data, technician, technician/scenarios, technician/requests. Each returned HTTP 200, rendered the workspace with Inter, one header, and no horizontal overflow at 1440px. No page errors were observed. Main and stagging returned HTTP 200 as well.
+
+Remote hashes confirmed unchanged: main `e66685aaf592662e41896b043663098e1053d339`, stagging `21d5ee6ff3ab89bb7e24b28b18aab9105ffb87a3`.
+The subsequent verification-document commit does not alter application code or the deployed artifact.
 
 ## Reproduce
 Run `npm test`, `npm run typecheck:dev`, `npm run build:dev` from the source checkout.
