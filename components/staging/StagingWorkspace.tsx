@@ -1,5 +1,5 @@
-import WorkspaceGuide from './WorkspaceGuide';
 'use client';
+import WorkspaceGuide from './WorkspaceGuide';
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Activity, ArrowDownToLine, ArrowRight, Check, CheckCircle2, ChevronRight, ClipboardList, Database, Download, FileUp, FlaskConical, Layers3, LayoutDashboard, Menu, Package, Play, Plus, Search, Settings2, ShieldCheck, Truck, Wrench, X, AlertCircle, Clock3, RefreshCw, Pause} from 'lucide-react';
 import {Bar, BarChart, Pie, PieChart, Cell, Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
