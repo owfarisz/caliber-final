@@ -11,6 +11,7 @@ export function seedGuidedDemo(data:Dataset,initial:WorkspaceState):WorkspaceSta
  if(initial.requests.length||initial.ledger.length||initial.scenarios.length)return initial;
  let s=initial;let serial=0;const run=(type:Command['type'],payload:unknown,role:'Inventory'|'Technician'='Inventory',key?:string)=>{s=applyCommand(s,data,{type,payload,role,actor:'guided-demo-model',idempotencyKey:key||`guided-demo:v1:${++serial}`,expectedVersion:s.version} as Command);};
  for(const [i,c] of cases.entries()){
+  if(data.demoCaseId&&c.id!==data.demoCaseId)continue;
   const day=s.asOfDate,req=`DEMO-REQ-${i+1}`,line=`DEMO-LINE-${i+1}`;
   run('RecordObservation',{id:`DEMO-OBS-${i+1}`,assetId:c.assetId,metric:c.metric,value:c.value,unit:c.metric==='velocityVibration'?'mm/s':'bar',observedAt:day,source:'SIMULATED · guided model example',reason:c.signal},'Technician');
   const input={assetId:c.assetId,horizonDays:c.needDays>90?180:30,runtimeHours:20,loadPercent:105,throughputPercent:105,foulingRate:1.4,maintenanceDelayDays:7,supplyDelayDays:0,materialId:c.materialId,quantity:c.quantity,needBy:addDays(day,c.needDays),priceProxy:false,holdingRate:.2,interventionCost:null,shortageEventCost:null};const result=simulate(data,s,input);
@@ -29,6 +30,6 @@ export function seedGuidedDemo(data:Dataset,initial:WorkspaceState):WorkspaceSta
   }
   if(i===4)run('PostIssue',{id:'DEMO-ISSUE-5',requestId:req,lineId:line,quantity:2,effectiveDate:day,reason:'SIMULATED DEMO · completed prior task; plan the next shutdown separately'});
  }
- run('RecordVerification',{id:'DEMO-VERIFY-2',assetId:cases[1].assetId,maintenanceId:'DEMO-MA-2',reference:'SIMULATED DEMO · post-cleaning verification pending full acceptance',observedAt:s.asOfDate,notes:'No automatic condition recovery or parts consumption is inferred.'},'Technician',DEMO_MARKER);
+ if(!data.demoCaseId||data.demoCaseId==='cleaning-first')run('RecordVerification',{id:'DEMO-VERIFY-2',assetId:cases[1].assetId,maintenanceId:'DEMO-MA-2',reference:'SIMULATED DEMO · post-cleaning verification pending full acceptance',observedAt:s.asOfDate,notes:'No automatic condition recovery or parts consumption is inferred.'},'Technician',DEMO_MARKER);
  return s;
 }

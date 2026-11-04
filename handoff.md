@@ -1,3 +1,17 @@
+# Current branch update: devnyadev
+
+The latest user request creates **devnyadev**, branched from dev after interactive guides (`3a770c7`). This checkout directory still has its legacy stagging name; always verify git branch. New delivery URL: https://owfarisz.github.io/caliber-final/devnyadev/. The existing dev URL retains the five-case workspace and guide.
+
+`ScenarioEntry.tsx` is now the static entry wrapper. Fresh tabs choose one of five scenarios and a starting role before loading SQLite. Selection persists in sessionStorage (`rootsync-devnyadev-selection-v1`); refresh resumes the current scenario. Change scenario unmounts and closes the repository, returns to entry, and preserves scenario progress. Roles can switch within the same scenario. These are demo roles, not authentication.
+
+Each scenario uses separate IndexedDB/Web Lock key `root-sync-devnyadev-v1:<caseId>`. Full source data is retained. Optional Dataset.demoCaseId scopes only guided UI and seed operations; focusedCases returns the selected catalog case while guidedCases still validates all source-compatible examples. Repository loading reattaches demoCaseId after reading the immutable app_snapshot. Initial selection uses the selected asset rather than always choosing the bearing pump. Original seed indexes/IDs are retained; only matching case operations are executed. No other-case requests/POs/ledger events are seeded. Reset reseeds only the selected scenario. Portfolio aggregates remain full Excel totals.
+
+Workflow dev.yml on this branch triggers on devnyadev and publishes main, stagging, dev, devnyadev together. A later deployment from an older branch can overwrite newer paths; rerun devnyadev workflow to restore all four. Do not change other source branches to fix that without authorization.
+
+Validation: 43 domain/model tests including isolated seeding of every case; strict dev TypeScript/build; scripts/verify-scenario-entry.cjs tests all five selections, one request/asset/material, aggregate preservation, reload, saved approval after switching away/back, starting role and lock release. GUIDE_URL is for verify-guide; DEMO_URL is for verify-scenario-entry. Both default to http://127.0.0.1:3120. Desktop only; mobile remains deferred. The guide regression script now handles entry selection before route checks.
+
+The sections below document inherited dev architecture. Where branch, URL, namespace or initial case counts differ, this update takes precedence.
+
 # ROOTSYNC — DEV handoff
 
 This is the continuation entry point for another session or AI. Read this before editing. The current task is the guided-demo revision on **branch `dev`**, based on published `stagging` commit `21d5ee6`. Do not merge into, rewrite, or publish changes to `main` or `stagging` without a new instruction.

@@ -1,7 +1,7 @@
-name: Deploy main stagging and dev Pages
+name: Deploy scenario demo and preserved branches
 on:
   push:
-    branches: [dev]
+    branches: [devnyadev]
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}dev/
+      url: ${{ steps.deployment.outputs.page_url }}devnyadev/
     steps:
       - uses: actions/checkout@v4
         with:
-          path: dev-source
+          path: scenario-source
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -28,6 +28,10 @@ jobs:
         with:
           ref: stagging
           path: staging-source
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-source
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -38,17 +42,22 @@ jobs:
         env:
           PAGES_OUT: ../main-source/pages-dist/stagging
           PAGES_BASE: /caliber-final/stagging
-      - run: npm ci
-        working-directory: dev-source
-      - run: node --import tsx --test tests/*.test.ts
-        working-directory: dev-source
-      - run: npx tsc -p tsconfig.staging.json
-        working-directory: dev-source
-      - run: node scripts/build-staging.mjs
+      - run: npm ci && node scripts/build-staging.mjs
         working-directory: dev-source
         env:
           PAGES_OUT: ../main-source/pages-dist/dev
           PAGES_BASE: /caliber-final/dev
+      - run: npm ci
+        working-directory: scenario-source
+      - run: node --import tsx --test tests/*.test.ts
+        working-directory: scenario-source
+      - run: npx tsc -p tsconfig.staging.json
+        working-directory: scenario-source
+      - run: node scripts/build-staging.mjs
+        working-directory: scenario-source
+        env:
+          PAGES_OUT: ../main-source/pages-dist/devnyadev
+          PAGES_BASE: /caliber-final/devnyadev
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

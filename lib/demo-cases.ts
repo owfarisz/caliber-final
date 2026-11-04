@@ -7,3 +7,5 @@ export const DEMO_CASES=[
  {id:'planned-negotiation',assetId:'PX_HE-234C',materialId:'4100014019',title:'Planned exchanger service',signal:'Maintenance vulnerability',story:'Use a longer planning window to compare vendors and negotiate gasket pricing before an agreed shutdown.',quantity:5,needDays:180,stage:'Plan negotiation',metric:'pressureDifferential',value:1.35}
 ] as const;
 export function guidedCases(data:Dataset){return DEMO_CASES.filter(c=>data.equipment.some(a=>a.id===c.assetId&&a.materialIds.includes(c.materialId))&&data.materials.some(m=>m.id===c.materialId));}
+
+export function focusedCases(data:Dataset){const cases=guidedCases(data);return data.demoCaseId?cases.filter(c=>c.id===data.demoCaseId):cases;}

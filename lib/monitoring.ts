@@ -1,5 +1,5 @@
 import type {Dataset} from './types';
-import {guidedCases} from './demo-cases';
+import {focusedCases as guidedCases} from './demo-cases';
 import type {WorkspaceState,Metric} from './domain';
 export const METRICS={
  velocityVibration:{label:'Velocity vibration RMS',unit:'mm/s',attention:4.5,critical:7.1,lowerBad:false,min:0,max:50},

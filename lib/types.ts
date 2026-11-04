@@ -12,6 +12,7 @@ export interface Equipment {
  cyclingRelevant:boolean; supportedIssueRows:number;
 }
 export interface Dataset {
+ demoCaseId?:string;
  version:string; cutoff:string; historyStart:string; historyDays:number; stockAsOf:null;
  materials:Material[]; equipment:Equipment[]; audit:Record<string,any>; sources:{file:string;sha256:string;rows:number}[];
 }

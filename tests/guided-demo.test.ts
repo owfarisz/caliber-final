@@ -31,3 +31,15 @@ test('inventory brief uses only active task dates and keeps procurement identity
  const rejected={...s,requests:s.requests.map(r=>r.id===request.id?{...r,status:'Rejected' as const}:r)};
  assert.equal(inventoryTaskContext(rejected,c.assetId,c.materialId,'2027-03-29').needBy,'2027-03-29');
 });
+
+
+test('each scoped demo seeds only its scenario while retaining the full Excel portfolio',()=>{
+ for(const c of guidedCases(data)){
+  const scoped={...data,demoCaseId:c.id};const state=seedGuidedDemo(scoped,initializeWorkspace(scoped));
+  assert.equal(state.requests.length,1);assert.equal(state.scenarios.length,1);
+  assert.ok(state.requests.every(r=>r.assetId===c.assetId));assert.ok(state.observations.every(r=>r.assetId===c.assetId));
+  assert.ok(state.ledger.every(r=>r.materialId===c.materialId));assert.ok(state.pos.every(r=>r.materialId===c.materialId));
+  assert.equal(scoped.materials.length,7481);assert.equal(scoped.equipment.length,data.equipment.length);
+  assert.equal(seedGuidedDemo(scoped,state),state);
+ }
+});

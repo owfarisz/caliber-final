@@ -1,0 +1,6 @@
+# Single-scenario entry plan
+
+Goal: branch devnyadev opens on a scenario and role chooser, then runs one focused demonstration. User authorized automatic execution.
+Design: reference-style light RootSync entry panel, five selectable scenarios with equipment/material context, two initial roles, Start demo. Change scenario returns to entry. Full Excel aggregates remain untouched. Each scenario has a separate persisted browser workspace and writer lock; switching resumes its state. Refresh retains current selection, direct links without selection show chooser. Existing dev remains at its current URL.
+Implementation: add ScenarioEntry wrapper; optional dataset demoCaseId and focusedCases UI selector; seed only the selected case via validated commands; namespace repository by scenario. Seed uses original scenario indexes so PR/PO identities and case behaviors remain stable. Missing cases fail clearly. Guide copy reflects one-case focus. Deploy new path /devnyadev preserving main/stagging/dev.
+Validation: seed each case independently, no other-case operations, full source totals unchanged, isolated persistence, role switching, scenario switching/refresh, page/role guide smoke, desktop visual inspection, tests/typecheck/build and live verification.
