@@ -68,3 +68,8 @@ Browser golden path at desktop and phone: Inventory→Technician→asset trend�
 
 ## Delivery and risk
 Branch stagging, separate worktree, no merge into main. Staging Pages directory isolated. Keep baseline main build in combined publication. Include SQL seed, schema, docs, reproducible source, QA evidence and English presentation. Production security, multi-user cloud persistence, actual telemetry and calibrated failure/RUL remain explicitly outside scope. If source lacks task quantities/price/receipt facts, require demo input; never fabricate a company fact to fill the gap.
+
+
+## Dev guided-demo revision — 2026-11-04
+
+The current dev implementation adds five source-compatible guided cases, an idempotent command-driven operational seed, Excel-derived company aggregates and supplier evidence, synthetic vendor evaluations separated from absent actual ratings, and inline predictive what-if to material-request promotion. Inventory reviews these requests with explanatory supplier, price-band and negotiation-date recommendations. See `docs/DEMO-USP-PLAN.md` for the implementation decisions and `handoff.md` for the complete data contracts, algorithms, assumptions, persistence rules and operational handoff. The dev IndexedDB store and deployment path are isolated from stagging. Desktop is the current delivery target; further phone work is deferred by explicit user instruction. Verification evidence: `docs/DEV-VERIFICATION.md`.

@@ -1,4 +1,5 @@
 import type {Dataset} from './types';
+import {guidedCases} from './demo-cases';
 import type {WorkspaceState,Metric} from './domain';
 export const METRICS={
  velocityVibration:{label:'Velocity vibration RMS',unit:'mm/s',attention:4.5,critical:7.1,lowerBad:false,min:0,max:50},
@@ -9,7 +10,7 @@ export const METRICS={
 export type AssetClass='rotating'|'exchanger'|'unsupported';
 export function assetClass(id:string,name=''):AssetClass {return /(?:_HE-|heat exchanger)/i.test(id+' '+name)?'exchanger':/(?:_PP-|pump|compressor)/i.test(id+' '+name)?'rotating':'unsupported';}
 export function addDays(date:string,days:number){return new Date(Date.parse(date+'T00:00:00Z')+days*86400000).toISOString().slice(0,10);}
-export function demoAssets(data:Dataset){return [data.equipment.find(e=>e.id==='PX_PP-1155C')||data.equipment.find(e=>assetClass(e.id,e.name)==='rotating'),data.equipment.find(e=>e.id==='PX_HE-388A')||data.equipment.find(e=>assetClass(e.id,e.name)==='exchanger')].filter(Boolean) as Dataset['equipment'];}
+export function demoAssets(data:Dataset){const ids=new Set(guidedCases(data).map(c=>c.assetId));if(ids.size)return data.equipment.filter(a=>ids.has(a.id as any));return [data.equipment.find(e=>assetClass(e.id,e.name)==='rotating'),data.equipment.find(e=>assetClass(e.id,e.name)==='exchanger')].filter(Boolean) as Dataset['equipment'];}
 export function metricStatus(metric:Metric,value:number):'Normal'|'Attention'|'Critical'{const d=METRICS[metric];return d.lowerBad?(value<=d.critical?'Critical':value<=d.attention?'Attention':'Normal'):(value>=d.critical?'Critical':value>=d.attention?'Attention':'Normal');}
 export interface Sample {date:string;metric:Metric;value:number;unit:string;source:string}
 export function observations(data:Dataset,state:WorkspaceState,assetId:string,cursor=state.asOfDate):Sample[]{

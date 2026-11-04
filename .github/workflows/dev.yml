@@ -1,0 +1,57 @@
+name: Deploy main stagging and dev Pages
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}dev/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: dev-source
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-source
+      - uses: actions/checkout@v4
+        with:
+          ref: stagging
+          path: staging-source
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npm run build:pages
+        working-directory: main-source
+      - run: npm ci && node scripts/build-staging.mjs
+        working-directory: staging-source
+        env:
+          PAGES_OUT: ../main-source/pages-dist/stagging
+          PAGES_BASE: /caliber-final/stagging
+      - run: npm ci
+        working-directory: dev-source
+      - run: node --import tsx --test tests/*.test.ts
+        working-directory: dev-source
+      - run: npx tsc -p tsconfig.staging.json
+        working-directory: dev-source
+      - run: node scripts/build-staging.mjs
+        working-directory: dev-source
+        env:
+          PAGES_OUT: ../main-source/pages-dist/dev
+          PAGES_BASE: /caliber-final/dev
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: main-source/pages-dist
+      - uses: actions/deploy-pages@v4
+        id: deployment

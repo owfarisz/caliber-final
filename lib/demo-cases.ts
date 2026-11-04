@@ -1,0 +1,9 @@
+import type {Dataset} from './types';
+export const DEMO_CASES=[
+ {id:'bearing-alert',assetId:'PX_PP-1155C',materialId:'4100000142',title:'Pump bearing alert',signal:'Rising vibration',story:'Inspect alignment and lubrication; confirm a bearing intervention before requesting parts.',quantity:3,needDays:7,stage:'Review request',metric:'velocityVibration',value:7.4},
+ {id:'cleaning-first',assetId:'PX_HE-388A',materialId:'4100024158',title:'Exchanger fouling',signal:'Differential pressure rising',story:'Compare cleaning first with a planned opening. Stock covers the two fasteners in the demo scope.',quantity:2,needDays:21,stage:'Reserved / cleaning',metric:'pressureDifferential',value:1.65},
+ {id:'compressor-stockout',assetId:'PX_KC-717',materialId:'4100014098',title:'Compressor spare gap',signal:'Condition + zero-stock vulnerability',story:'A gasket is BoM-compatible, not diagnosed by vibration alone. Confirm opening scope; supply arrives after need-by.',quantity:2,needDays:7,stage:'PO arrives late',metric:'velocityVibration',value:6.8},
+ {id:'partial-supply',assetId:'PY_PP-203B',materialId:'4100008783',title:'Pump partial delivery',signal:'Partial receipt / remaining exposure',story:'A confirmed demo intervention needs eight sleeves. Track partial supply, reservations and physical issues separately.',quantity:8,needDays:14,stage:'Partially fulfilled',metric:'velocityVibration',value:5.6},
+ {id:'planned-negotiation',assetId:'PX_HE-234C',materialId:'4100014019',title:'Planned exchanger service',signal:'Maintenance vulnerability',story:'Use a longer planning window to compare vendors and negotiate gasket pricing before an agreed shutdown.',quantity:5,needDays:180,stage:'Plan negotiation',metric:'pressureDifferential',value:1.35}
+] as const;
+export function guidedCases(data:Dataset){return DEMO_CASES.filter(c=>data.equipment.some(a=>a.id===c.assetId&&a.materialIds.includes(c.materialId))&&data.materials.some(m=>m.id===c.materialId));}

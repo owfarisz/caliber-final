@@ -2,8 +2,9 @@ import type {Database,SqlJsStatic} from 'sql.js';
 import type {Dataset} from './types';
 import {initializeWorkspace,applyCommand,type WorkspaceState,type Command} from './domain';
 import {projectDataset} from './imports';
+import {seedGuidedDemo} from './demo-seed';
 declare global {interface Window {initSqlJs:(options:{locateFile:(file:string)=>string})=>Promise<SqlJsStatic>}}
-const STORE='root-sync-stagging-v2';
+const STORE='root-sync-dev-guided-v1';
 function openStore():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const r=indexedDB.open(STORE,1);r.onupgradeneeded=()=>r.result.createObjectStore('workspace');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
 async function readBytes():Promise<Uint8Array|null>{const db=await openStore();return new Promise((resolve,reject)=>{const tx=db.transaction('workspace','readonly');const r=tx.objectStore('workspace').get('bytes');r.onsuccess=()=>resolve(r.result?new Uint8Array(r.result):null);r.onerror=()=>reject(r.error);tx.oncomplete=()=>db.close();});}
 async function saveBytes(bytes:Uint8Array):Promise<void>{const db=await openStore();return new Promise((resolve,reject)=>{const tx=db.transaction('workspace','readwrite');tx.objectStore('workspace').put(bytes,'bytes');tx.oncomplete=()=>{db.close();resolve();};tx.onabort=tx.onerror=()=>{db.close();reject(tx.error||new Error('Workspace could not be saved'));};});}
@@ -27,14 +28,14 @@ export class WorkspaceRepository {
  if(navigator.locks){await new Promise<void>((resolve,reject)=>{navigator.locks.request(STORE,{mode:'exclusive',ifAvailable:true},async lock=>{if(!lock){resolve();return;}writable=true;await new Promise<void>(r=>{release=r;resolve();});}).catch(reject);});}
  try{let bytes=await readBytes();if(!bytes){const r=await fetch(`${base}/demo.sqlite`);if(!r.ok)throw Error('Seed database is unavailable');bytes=new Uint8Array(await r.arrayBuffer());}
  const db=new SQL.Database(bytes);const snapshot=db.exec('SELECT payload FROM app_snapshot WHERE id=1');if(!snapshot.length)throw Error('Invalid seed database');const dataset=JSON.parse(String(snapshot[0].values[0][0])) as Dataset;
- const exists=db.exec("SELECT name FROM sqlite_master WHERE name='workspace_meta'").length;const saved=exists?db.exec('SELECT payload FROM workspace_meta WHERE id=1'):[];const state=saved.length?JSON.parse(String(saved[0].values[0][0])) as WorkspaceState:initializeWorkspace(dataset);
+ const exists=db.exec("SELECT name FROM sqlite_master WHERE name='workspace_meta'").length;const saved=exists?db.exec('SELECT payload FROM workspace_meta WHERE id=1'):[];const state=saved.length?JSON.parse(String(saved[0].values[0][0])) as WorkspaceState:seedGuidedDemo(dataset,initializeWorkspace(dataset));
  if(state.schemaVersion!==2||state.datasetVersion!==dataset.version)throw Error('Workspace version mismatch. Export your saved database before upgrading.');
  if(!saved.length&&writable){materializeWorkspace(db,state);await saveBytes(db.export());}
  return new WorkspaceRepository(db,SQL,dataset,state,writable,release);
  }catch(e){release();throw e;}
  }
  async execute(command:Command):Promise<WorkspaceState>{if(!this.writable)throw Error('Another tab owns this workspace. Close it and reload to edit.');if(this.busy)throw Error('A command is still saving. Please wait.');this.busy=true;let candidate:Database|undefined;
- try{const next=applyCommand(this.state,this.dataset,command);if(next===this.state)return this.state;const projected=projectDataset(this.seed,next);candidate=new this.sql.Database(this.db.export());materializeWorkspace(candidate,next);await saveBytes(candidate.export());this.db.close();this.db=candidate;candidate=undefined;this.state=next;this.dataset=projected;return next;}finally{candidate?.close();this.busy=false;}}
+ try{let next=applyCommand(this.state,this.dataset,command);if(command.type==='ResetWorkspace'&&command.payload.reason==='Load guided demo examples')next=seedGuidedDemo(this.seed,next);if(next===this.state)return this.state;const projected=projectDataset(this.seed,next);candidate=new this.sql.Database(this.db.export());materializeWorkspace(candidate,next);await saveBytes(candidate.export());this.db.close();this.db=candidate;candidate=undefined;this.state=next;this.dataset=projected;return next;}finally{candidate?.close();this.busy=false;}}
  export(){return this.db.export();}
  query(sql:string,params:(string|number)[]=[]){const stmt=this.db.prepare(sql);try{stmt.bind(params);const rows:Record<string,any>[]=[];while(stmt.step())rows.push(stmt.getAsObject());return rows;}finally{stmt.free();}}
  close(){this.release();this.db.close();}

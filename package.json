@@ -10,7 +10,10 @@
     "test": "tsx --test tests/*.test.ts",
     "data": "python3 scripts/ingest.py",
     "test:e2e": "playwright test",
-    "build:pages": "node scripts/build-pages.mjs"
+    "build:pages": "node scripts/build-pages.mjs",
+    "build:dev": "node scripts/build-staging.mjs",
+    "typecheck:dev": "tsc -p tsconfig.staging.json",
+    "evidence:dev": "python3 scripts/build-demo-evidence.py"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
