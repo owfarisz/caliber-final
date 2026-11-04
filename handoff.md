@@ -205,3 +205,11 @@ Implementation, 42 tests, strict TypeScript, build, desktop guided workflow and 
 ### Final review corrections
 
 `lib/brief-context.ts` binds the supplier brief to one active asset/material request line. Its need-by date and procurement identity always come from that same line. Completed/rejected tasks do not supply negotiation deadlines; existing procurement is matched by request and line. If no active task exists, the brief remains informative but its procurement action is disabled until a new technician task is confirmed. Requests awaiting clarification show a disabled waiting state until technician revision/resubmission. Regression coverage is in `tests/guided-demo.test.ts`.
+
+## Interactive Page guide and Role flow
+
+The top-bar **Guide** button opens a native modal walkthrough. `components/staging/WorkspaceGuide.tsx` owns the step catalog and UI. **Page guide** covers all eight routes; **Role flow** gives five ordered steps for Inventory or Technician and navigates actual screens. Guides never call domain commands or mutate SQLite. Close the guide to perform an action. They do not open automatically.
+
+Spotlights follow target bounds on scroll/resize. Standard panels expose `data-guide` from their title; other steps use existing stable section classes/IDs. When renaming panel titles, update guide selectors and run the browser test. Missing sections fall back to the page heading with a visible explanation. Page-guide progress resets after browser history navigation; role-flow progress survives its intentional navigation. Escape, Close and Finish return keyboard focus to the launcher. The native modal provides focus containment.
+
+Desktop browser regression script: `scripts/verify-guide.cjs` (requires @playwright/test and installed Chrome). Set `GUIDE_URL` to the serving base; default http://127.0.0.1:3120. It covers every page step, both role flows, Back, browser Back, Finish, Close, Escape, focus restoration and unchanged workspace version. Local screenshots are QA artifacts under prototype codex/qa-runtime.nosync. Mobile remains deferred.
