@@ -1,0 +1,12 @@
+import {build} from 'esbuild';
+import {mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
+const base=process.env.PAGES_BASE||'/caliber-final';
+const out=process.env.PAGES_OUT||'pages-dist';
+await mkdir(`${out}/assets`,{recursive:true});await mkdir(`${out}/data`,{recursive:true});
+await build({entryPoints:['scripts/pages-entry.tsx'],bundle:true,minify:true,jsx:'automatic',outfile:`${out}/assets/app.js`,define:{'process.env.NODE_ENV':'"production"','process.env.NEXT_PUBLIC_STATIC_BASE':JSON.stringify(base)},target:['es2020']});
+await copyFile('public/data/snapshot.json',`${out}/data/snapshot.json`);
+await copyFile('app/icon.svg',`${out}/icon.svg`);
+await writeFile(`${out}/audit-report.html`,(await readFile('public/audit-report.html','utf8')).replace('href="/icon.svg"','href="./icon.svg"'));
+await writeFile(`${out}/index.html`,`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263F77"><title>KAUSYNC — Spare Intelligence</title><link rel="icon" href="${base}/icon.svg"><link rel="stylesheet" href="${base}/assets/app.css"></head><body><div id="root"></div><script type="module" src="${base}/assets/app.js"></script></body></html>`);
+await writeFile(`${out}/.nojekyll`,'');
+console.log(`GitHub Pages build ready: ${out} (base ${base})`);
