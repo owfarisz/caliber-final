@@ -25,3 +25,8 @@ Run `npm test`, `npm run typecheck:dev`, `npm run build:dev` from the source che
 Local browser script: `../../prototype codex/qa-runtime.nosync/verify-dev-guided.cjs` (desktop only; optional DEMO_URL).
 Live route script: `../../prototype codex/qa-runtime.nosync/verify-dev-live.cjs`.
 See root `handoff.md` for full setup, paths, assumptions, limitations and next-session instructions.
+
+
+## Interactive guide delivery
+Application commit `3890ca1`, deployed successfully in [Actions run 41813661237](https://github.com/owfarisz/caliber-final/actions/runs/41813661237).
+Local and live desktop Chrome checks passed every step on all eight page guides and both five-step role flows. Back, Close, Finish, Escape, focus restoration and browser-history progress reset passed. No missing targets, page errors or operational version changes were observed. Strict TypeScript, production build and all 42 domain tests passed. Desktop Inventory page-guide and Technician role-flow screenshots were visually inspected. Phone-specific work remains deferred.
