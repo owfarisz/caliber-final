@@ -30,3 +30,13 @@ See root `handoff.md` for full setup, paths, assumptions, limitations and next-s
 ## Interactive guide delivery
 Application commit `3890ca1`, deployed successfully in [Actions run 41813661237](https://github.com/owfarisz/caliber-final/actions/runs/41813661237).
 Local and live desktop Chrome checks passed every step on all eight page guides and both five-step role flows. Back, Close, Finish, Escape, focus restoration and browser-history progress reset passed. No missing targets, page errors or operational version changes were observed. Strict TypeScript, production build and all 42 domain tests passed. Desktop Inventory page-guide and Technician role-flow screenshots were visually inspected. Phone-specific work remains deferred.
+
+
+## devnyadev: focused scenario entry
+New branch and URL: https://owfarisz.github.io/caliber-final/devnyadev/.
+Feature commit `7ad90c2`; follow-up `d7b4bd1` preserves the client directive for Next compatibility. Initial deployment [41815348274](https://github.com/owfarisz/caliber-final/actions/runs/41815348274) succeeded. Final deployment succeeded in [41815621853](https://github.com/owfarisz/caliber-final/actions/runs/41815621853).
+
+43 tests pass. Strict TypeScript/build pass. Desktop local and live tests selected every case, verified exactly one seeded request/asset/material, full 7,481-material source aggregate, refresh persistence, initial role selection and writer-lock release. A saved approval remained intact after switching through all other scenarios and returning. No browser page errors. All eight page guides and both role flows also passed locally with entry selection enabled. Final entry screen was visually inspected. No mobile work performed.
+
+GitHub receive-pack returned repeated Internal Server Error. The feature tree and commit were uploaded through the Git Data API with the exact same hashes (`448577a13576e23aedc2054ea9c98d30e5741b6a`, `7ad90c206f07b9ab781d2dba797fba6cc9e8a915`) and the branch advanced without force. Subsequent git push succeeded.
+Preserved branch hashes: dev `3a770c7449ec92af9a6b0e2ed89d04f94d0907af`, main `e66685aaf592662e41896b043663098e1053d339`, stagging `21d5ee6ff3ab89bb7e24b28b18aab9105ffb87a3`.

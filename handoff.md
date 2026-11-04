@@ -1,6 +1,6 @@
 # Current branch update: devnyadev
 
-The latest user request creates **devnyadev**, branched from dev after interactive guides (`3a770c7`). This checkout directory still has its legacy stagging name; always verify git branch. New delivery URL: https://owfarisz.github.io/caliber-final/devnyadev/. The existing dev URL retains the five-case workspace and guide.
+The latest user request creates **devnyadev**, branched from dev after interactive guides (`3a770c7`). This checkout directory still has its legacy stagging name; always verify git branch. Published and desktop-verified (43 passing tests; final Actions run 41815621853). New delivery URL: https://owfarisz.github.io/caliber-final/devnyadev/. The existing dev URL retains the five-case workspace and guide.
 
 `ScenarioEntry.tsx` is now the static entry wrapper. Fresh tabs choose one of five scenarios and a starting role before loading SQLite. Selection persists in sessionStorage (`rootsync-devnyadev-selection-v1`); refresh resumes the current scenario. Change scenario unmounts and closes the repository, returns to entry, and preserves scenario progress. Roles can switch within the same scenario. These are demo roles, not authentication.
 
