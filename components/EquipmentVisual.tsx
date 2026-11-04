@@ -67,13 +67,21 @@ function buildMachine(kind:Kind){
   addMesh(machine,new THREE.TorusGeometry(.7,.09,12,40),colors.yellow,[0,1.3,0],[Math.PI/2,0,0]);
   for(const angle of [0,Math.PI/2])addMesh(machine,new THREE.BoxGeometry(1.35,.09,.09),colors.yellow,[0,1.3,0],[0,angle,0]);
  }
- if(kind==='tank'||kind==='vessel'){
+ if(kind==='tank'){
   addMesh(machine,new THREE.CylinderGeometry(1.5,1.5,2.65,48),colors.mid,[0,.1,0]);
   addMesh(machine,new THREE.ConeGeometry(1.55,.55,48),colors.blue,[0,1.7,0]);
   for(const y of [-1.1,0,1.3])addMesh(machine,new THREE.TorusGeometry(1.51,.045,10,48),colors.pale,[0,y,0],[Math.PI/2,0,0]);
   pipe(machine,[[1.1,-.85,1.1],[2,-.85,1.1],[2,-.8,1.8]],.15,colors.cyan);
   for(const x of [-.25,.25])addMesh(machine,new THREE.BoxGeometry(.05,2.7,.05),colors.yellow,[x,.15,1.55]);
   for(let y=-1.05;y<1.4;y+=.3)addMesh(machine,new THREE.BoxGeometry(.55,.05,.05),colors.yellow,[0,y,1.55]);
+ }
+ if(kind==='vessel'){
+  addMesh(machine,new THREE.CylinderGeometry(.9,.9,2.5,40),colors.mid,[0,.25,0]);
+  for(const y of [-1.0,1.5]){const cap=addMesh(machine,new THREE.SphereGeometry(.9,32,20),colors.blue,[0,y,0]);cap.scale.y=.4;}
+  for(const x of [-.65,.65])for(const z of [-.5,.5])addMesh(machine,new THREE.BoxGeometry(.14,.5,.14),colors.navy,[x,-1.1,z]);
+  pipe(machine,[[.75,.55,0],[1.6,.55,0],[1.6,.55,1]],.15,colors.cyan);
+  addMesh(machine,new THREE.CylinderGeometry(.17,.17,.55,20),colors.steel,[0,1.95,0]);
+  for(const y of [-.3,.8])addMesh(machine,new THREE.TorusGeometry(.91,.035,10,40),colors.pale,[0,y,0],[Math.PI/2,0,0]);
  }
  if(kind==='fan'){
   cylinder(machine,1.1,1.0,colors.navy,[0,0,0]);

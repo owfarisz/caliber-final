@@ -4,7 +4,7 @@ import {ArrowRight,Box,AlertTriangle,SlidersHorizontal,Activity,Sparkles,Chevron
 import type {Dataset} from '../lib/types';
 import {EquipmentVisual} from './EquipmentVisual';
 const fmt=(v:number)=>v.toLocaleString('en-US');
-type Filter='All materials'|'Below minimum'|'Above maximum'|'Policy review'|'No history';
+type Filter='All materials'|'Below minimum'|'Above maximum'|'Policy review'|'No history'|'Within policy';
 export default function DashboardOverview({dataset,onFilter,onEvidence}:{dataset:Dataset;onFilter:(f:Filter)=>void;onEvidence:()=>void}){
  const [kind,setKind]=useState<'compressor'|'exchanger'|'pump'|'motor'|'valve'|'tank'|'vessel'|'fan'|'instrument'|'furnace'|'pipe'>('pump');
  const [period,setPeriod]=useState('all');
@@ -14,7 +14,7 @@ export default function DashboardOverview({dataset,onFilter,onEvidence}:{dataset
  m.forEach(x=>x.daily.forEach(([day,q])=>{if(q>0)months.set(day.slice(0,7),(months.get(day.slice(0,7))||0)+1);}));
  return {below:below.length,above:above.length,unset:unset.length,within:m.length-below.length-above.length-unset.length,history:m.filter(x=>x.issueRows>0).length,criticalShort:below.filter(x=>x.criticality==='A'||x.criticality==='B').length,monthly:[...months].map(([month,value])=>({month,value})),crit:['A','B','C','S','Unknown'].map(c=>({name:c,value:m.filter(x=>x.criticality===c).length}))};
  },[dataset]);
- const slices=[{label:'Below minimum',value:stats.below,color:'#c8424d',filter:'Below minimum'},{label:'Above maximum',value:stats.above,color:'#4076b4',filter:'Above maximum'},{label:'Within policy',value:stats.within,color:'#1c725b',filter:'All materials'},{label:'Policy not set',value:stats.unset,color:'#e0de50',filter:'Policy review'}];
+ const slices=[{label:'Below minimum',value:stats.below,color:'#c8424d',filter:'Below minimum'},{label:'Above maximum',value:stats.above,color:'#4076b4',filter:'Above maximum'},{label:'Within policy',value:stats.within,color:'#1c725b',filter:'Within policy'},{label:'Policy not set',value:stats.unset,color:'#e0de50',filter:'Policy review'}];
  const months=period==='6'?stats.monthly.slice(-6):stats.monthly,max=Math.max(...months.map(x=>x.value),1);
  const points=months.map((x,i)=>`${44+i*566/Math.max(months.length-1,1)},${178-x.value/max*138}`).join(' ');
  let offset=0;
